@@ -1,4 +1,5 @@
 # NewsPulse
+🔗 **Live Demo:** [news-pulse-phi.vercel.app](https://news-pulse-phi.vercel.app)
 
 A news app built with Next.js that pulls live Arabic news, with search, category filters, and dark mode.
 
