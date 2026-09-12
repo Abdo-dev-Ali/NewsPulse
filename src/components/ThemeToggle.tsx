@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function getInitialTheme() {
   if (typeof window === "undefined") return false;
@@ -10,11 +10,11 @@ function getInitialTheme() {
 export default function ThemeToggle() {
   const [isDark, setIsDark] = useState(getInitialTheme);
 
-  useState(() => {
+  useEffect(() => {
     if (isDark) {
       document.documentElement.classList.add("dark");
     }
-  });
+  }, []);
 
   const toggleTheme = () => {
     const newValue = !isDark;
@@ -32,7 +32,8 @@ export default function ThemeToggle() {
   return (
     <button
       onClick={toggleTheme}
-      className="fixed top-4 left-4  bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-full p-2 shadow-md cursor-pointer transition "
+      suppressHydrationWarning
+      className="fixed top-4 left-4 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-full p-2 shadow-md cursor-pointer transition"
     >
       {isDark ? "☀️" : "🌙"}
     </button>
