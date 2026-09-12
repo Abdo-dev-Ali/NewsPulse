@@ -8,8 +8,15 @@ type Article = {
   urlToImage: string;
 };
 
+function getBaseUrl() {
+  if (process.env.VERCEL_URL) {
+    return `https://${process.env.VERCEL_URL}`;
+  }
+  return "http://localhost:3000";
+}
+
 export default async function Home() {
-  const res = await fetch("http://localhost:3000/api/news");
+  const res = await fetch(`${getBaseUrl()}/api/news`);
   const data = await res.json();
   const articles: Article[] = data.articles || [];
 
