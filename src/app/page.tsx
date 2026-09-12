@@ -8,17 +8,20 @@ type Article = {
   urlToImage: string;
 };
 
-function getBaseUrl() {
-  if (process.env.VERCEL_URL) {
-    return `https://${process.env.VERCEL_URL}`;
-  }
-  return "http://localhost:3000";
+async function getNews() {
+  const apikey = process.env.NEWS_API_KEY;
+  const url = `https://newsapi.org/v2/everything?q=أخبار OR مصر OR رياضة OR تكنولوجيا OR اقتصاد&language=ar&sortBy=publishedAt&pageSize=50&apiKey=${apikey}`;
+
+  const response = await fetch(url, {
+    next: { revalidate: 3600 },
+  });
+
+  const data = await response.json();
+  return data.articles || [];
 }
 
 export default async function Home() {
-  const res = await fetch(`${getBaseUrl()}/api/news`);
-  const data = await res.json();
-  const articles: Article[] = data.articles || [];
+  const articles: Article[] = await getNews();
 
   return (
     <main className="p-6 bg-gray-50 dark:bg-gray-900 min-h-screen transition-colors">
